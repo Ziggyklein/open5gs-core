@@ -9,14 +9,14 @@ global:
 upf:
     pfcp:
       server:
-        - address: 172.22.0.8
+        - address: 0.0.0.0
       client:
         smf:
-          - address: 172.22.0.7
+          - address: smf
     gtpu:
       server:
-        - address: 172.22.0.8
-          advertise: 172.22.0.8
+        - address: 0.0.0.0
+          advertise: upf
     session:
       - subnet: 192.168.100.0/24
         gateway: 192.168.100.1
@@ -36,5 +36,5 @@ upf:
 #         dev: ogstun2
     metrics:
       server:
-        - address: 172.22.0.8
+        - address: 0.0.0.0
           port: 9091
