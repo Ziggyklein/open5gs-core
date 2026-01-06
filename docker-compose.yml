@@ -1,0 +1,120 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - mongo-data:/data/db
+
+  webui:
+    image: open5gs/open5gs-webui:latest
+    container_name: webui
+    restart: unless-stopped
+    networks: [open5gs]
+    depends_on: [mongo]
+    ports:
+      - "3000:3000"
+
+  nrf:
+    image: open5gs/open5gs:latest
+    container_name: nrf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-nrfd"]
+
+  scp:
+    image: open5gs/open5gs:latest
+    container_name: scp
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-scpd"]
+    depends_on: [nrf]
+
+  amf:
+    image: open5gs/open5gs:latest
+    container_name: amf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-amfd"]
+    depends_on: [nrf, scp]
+    # gNB -> AMF (NGAP over SCTP)
+    ports:
+      - "38412:38412/sctp"
+
+  ausf:
+    image: open5gs/open5gs:latest
+    container_name: ausf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-ausfd"]
+    depends_on: [nrf, scp, mongo]
+
+  udm:
+    image: open5gs/open5gs:latest
+    container_name: udm
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-udmd"]
+    depends_on: [nrf, scp, mongo]
+
+  udr:
+    image: open5gs/open5gs:latest
+    container_name: udr
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-udrd"]
+    depends_on: [nrf, scp, mongo]
+
+  pcf:
+    image: open5gs/open5gs:latest
+    container_name: pcf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-pcfd"]
+    depends_on: [nrf, scp]
+
+  nssf:
+    image: open5gs/open5gs:latest
+    container_name: nssf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-nssfd"]
+    depends_on: [nrf, scp]
+
+  bsf:
+    image: open5gs/open5gs:latest
+    container_name: bsf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-bsfd"]
+    depends_on: [nrf, scp]
+
+  smf:
+    image: open5gs/open5gs:latest
+    container_name: smf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-smfd"]
+    depends_on: [nrf, scp, up]()_
+
