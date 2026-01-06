@@ -116,5 +116,24 @@ services:
     volumes:
       - ./config:/open5gs/install/etc/open5gs:ro
     command: ["open5gs-smfd"]
-    depends_on: [nrf, scp, up]()_
+    depends_on: [nrf, scp, upf]
 
+  upf:
+    image: open5gs/open5gs:latest
+    container_name: upf
+    restart: unless-stopped
+    networks: [open5gs]
+    volumes:
+      - ./config:/open5gs/install/etc/open5gs:ro
+    command: ["open5gs-upfd"]
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+
+networks:
+  open5gs:
+    name: open5gs
+
+volumes:
+  mongo-data:
