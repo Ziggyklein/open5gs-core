@@ -129,6 +129,7 @@ services:
     privileged: true
     cap_add:
       - NET_ADMIN
+      - SYS_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
     sysctls:
