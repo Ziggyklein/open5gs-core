@@ -117,7 +117,7 @@ services:
       - ./config:/etc/open5gs:ro
     command: ["open5gs-smfd"]
     depends_on: [nrf, scp, mongo, upf]
-
+  
   upf:
     image: gradiant/open5gs:2.7.2
     container_name: upf
@@ -126,6 +126,7 @@ services:
     volumes:
       - ./config:/etc/open5gs:ro
     command: ["open5gs-upfd"]
+    privileged: true
     cap_add:
       - NET_ADMIN
     devices:
@@ -134,6 +135,7 @@ services:
       - net.ipv4.ip_forward=1
     ports:
       - "2152:2152/udp"
+
 networks:
   open5gs:
     name: open5gs
