@@ -1,6 +1,6 @@
 logger:
   file:
-    path: /open5gs/install/var/log/open5gs/mme.log
+    path: /var/log/open5gs/mme.log
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:
@@ -9,7 +9,7 @@ global:
 #    peer: 64
 
 mme:
-  freeDiameter: /open5gs/install/etc/freeDiameter/mme.conf
+  freeDiameter: /etc/freeDiameter/mme.conf
   s1ap:
     server:
       - address: 127.0.0.2

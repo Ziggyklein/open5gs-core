@@ -1,6 +1,6 @@
 logger:
   file:
-    path: /open5gs/install/var/log/open5gs/sepp1.log
+    path: /var/log/open5gs/sepp1.log
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:
@@ -12,10 +12,10 @@ sepp:
   default:
     tls:
       server:
-        private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-        cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+        private_key: /etc/open5gs/tls/sepp1.key
+        cert: /etc/open5gs/tls/sepp1.crt
       client:
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+        cacert: /etc/open5gs/tls/ca.crt
   sbi:
     server:
       - address: 127.0.1.250
@@ -126,10 +126,10 @@ sepp:
 #  default:
 #    tls:
 #      server:
-#        private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#        cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+#        private_key: /etc/open5gs/tls/sepp1.key
+#        cert: /etc/open5gs/tls/sepp1.crt
 #      client:
-#        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+#        cacert: /etc/open5gs/tls/ca.crt
 #  sbi:
 #    server:
 #      - address: 127.0.1.250
@@ -154,12 +154,12 @@ sepp:
 #  default:
 #    tls:
 #      server:
-#        private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#        cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
-#        sslkeylogfile: /open5gs/install/var/log/open5gs/tls/sepp1-server-sslkeylog.log
+#        private_key: /etc/open5gs/tls/sepp1.key
+#        cert: /etc/open5gs/tls/sepp1.crt
+#        sslkeylogfile: /var/log/open5gs/tls/sepp1-server-sslkeylog.log
 #      client:
-#        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-#        client_sslkeylogfile: /open5gs/install/var/log/open5gs/tls/sepp1-client-sslkeylog.log
+#        cacert: /etc/open5gs/tls/ca.crt
+#        client_sslkeylogfile: /var/log/open5gs/tls/sepp1-client-sslkeylog.log
 #  sbi:
 #    server:
 #      - address: 127.0.1.250
@@ -182,14 +182,14 @@ sepp:
 #  default:
 #    tls:
 #      server:
-#        private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#        cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+#        private_key: /etc/open5gs/tls/sepp1.key
+#        cert: /etc/open5gs/tls/sepp1.crt
 #        verify_client: true
-#        verify_client_cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+#        verify_client_cacert: /etc/open5gs/tls/ca.crt
 #      client:
-#        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-#        client_private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#        client_cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+#        cacert: /etc/open5gs/tls/ca.crt
+#        client_private_key: /etc/open5gs/tls/sepp1.key
+#        client_cert: /etc/open5gs/tls/sepp1.crt
 #  sbi:
 #    server:
 #      - address: 127.0.1.250
@@ -213,14 +213,14 @@ sepp:
 #  default:
 #    tls:
 #      server:
-#        private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#        cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+#        private_key: /etc/open5gs/tls/sepp1.key
+#        cert: /etc/open5gs/tls/sepp1.crt
 #        verify_client: true
-#        verify_client_cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+#        verify_client_cacert: /etc/open5gs/tls/ca.crt
 #      client:
-#        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-#        client_private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#        client_cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+#        cacert: /etc/open5gs/tls/ca.crt
+#        client_private_key: /etc/open5gs/tls/sepp1.key
+#        client_cert: /etc/open5gs/tls/sepp1.crt
 #  sbi:
 #    server:
 #      - address: 127.0.1.250
@@ -258,28 +258,28 @@ sepp:
 #      - sender: sepp1.localdomain
 #        scheme: https
 #        address: 127.0.1.251
-#        private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#        cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+#        private_key: /etc/open5gs/tls/sepp1.key
+#        cert: /etc/open5gs/tls/sepp1.crt
 #        verify_client: true
-#        verify_client_cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+#        verify_client_cacert: /etc/open5gs/tls/ca.crt
 #        n32f:
 #          scheme: https
 #          address: 127.0.1.252
-#          private_key: /open5gs/install/etc/open5gs/tls/sepp1-n32f.key
-#          cert: /open5gs/install/etc/open5gs/tls/sepp1-n32f.crt
+#          private_key: /etc/open5gs/tls/sepp1-n32f.key
+#          cert: /etc/open5gs/tls/sepp1-n32f.crt
 #          verify_client: true
-#          verify_client_cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+#          verify_client_cacert: /etc/open5gs/tls/ca.crt
 #    client:
 #      sepp:
 #        - receiver: sepp2.localdomain
 #          uri: https://sepp2.localdomain
 #          resolve: 127.0.2.251
-#          cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-#          client_private_key: /open5gs/install/etc/open5gs/tls/sepp1.key
-#          client_cert: /open5gs/install/etc/open5gs/tls/sepp1.crt
+#          cacert: /etc/open5gs/tls/ca.crt
+#          client_private_key: /etc/open5gs/tls/sepp1.key
+#          client_cert: /etc/open5gs/tls/sepp1.crt
 #          n32f:
 #            uri: https://sepp2.localdomain
 #            resolve: 127.0.2.252
-#            cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-#            client_private_key: /open5gs/install/etc/open5gs/tls/sepp1-n32f.key
-#            client_cert: /open5gs/install/etc/open5gs/tls/sepp1-n32f.crt
+#            cacert: /etc/open5gs/tls/ca.crt
+#            client_private_key: /etc/open5gs/tls/sepp1-n32f.key
+#            client_cert: /etc/open5gs/tls/sepp1-n32f.crt

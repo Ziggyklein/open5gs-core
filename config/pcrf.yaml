@@ -1,7 +1,7 @@
-db_uri: mongodb://localhost/open5gs
+db_uri: mongodb://mongo/open5gs
 logger:
   file:
-    path: /open5gs/install/var/log/open5gs/pcrf.log
+    path: /var/log/open5gs/pcrf.log
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:
@@ -9,7 +9,7 @@ global:
     ue: 1024  # The number of UE can be increased depending on memory size.
 #    peer: 64
 pcrf:
-  freeDiameter: /open5gs/install/etc/freeDiameter/pcrf.conf
+  freeDiameter: /etc/freeDiameter/pcrf.conf
   metrics:
     server:
       - address: 127.0.0.9

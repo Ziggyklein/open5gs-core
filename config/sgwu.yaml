@@ -1,6 +1,6 @@
 logger:
   file:
-    path: /open5gs/install/var/log/open5gs/sgwu.log
+    path: /var/log/open5gs/sgwu.log
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:

@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: mongo:6
+    image: mongo:4.4
     container_name: mongo
     restart: unless-stopped
     networks: [open5gs]
@@ -8,7 +8,7 @@ services:
       - mongo-data:/data/db
 
   webui:
-    image: open5gs/open5gs-webui:latest
+    image: gradiant/open5gs-webui:2.7.2
     container_name: webui
     restart: unless-stopped
     networks: [open5gs]
@@ -17,31 +17,31 @@ services:
       - "3000:3000"
 
   nrf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: nrf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-nrfd"]
 
   scp:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: scp
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-scpd"]
     depends_on: [nrf]
 
   amf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: amf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-amfd"]
     depends_on: [nrf, scp]
     # gNB -> AMF (NGAP over SCTP)
@@ -49,88 +49,91 @@ services:
       - "38412:38412/sctp"
 
   ausf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: ausf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-ausfd"]
     depends_on: [nrf, scp, mongo]
 
   udm:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: udm
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-udmd"]
     depends_on: [nrf, scp, mongo]
 
   udr:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: udr
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-udrd"]
     depends_on: [nrf, scp, mongo]
 
   pcf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: pcf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-pcfd"]
-    depends_on: [nrf, scp]
+    depends_on: [nrf, scp, mongo]
 
   nssf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: nssf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-nssfd"]
-    depends_on: [nrf, scp]
+    depends_on: [nrf, scp, mongo]
 
   bsf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: bsf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-bsfd"]
-    depends_on: [nrf, scp]
+    depends_on: [nrf, scp, mongo]
 
   smf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: smf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-smfd"]
-    depends_on: [nrf, scp, upf]
+    depends_on: [nrf, scp, mongo, upf]
 
   upf:
-    image: open5gs/open5gs:latest
+    image: gradiant/open5gs:2.7.2
     container_name: upf
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/open5gs/install/etc/open5gs:ro
+      - ./config:/etc/open5gs:ro
     command: ["open5gs-upfd"]
     cap_add:
       - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
     sysctls:
       - net.ipv4.ip_forward=1
-
+    ports:
+      - "2152:2152/udp"
 networks:
   open5gs:
     name: open5gs
