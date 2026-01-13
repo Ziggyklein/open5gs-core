@@ -6,15 +6,39 @@ services:
     networks: [open5gs]
     volumes:
       - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   webui:
     image: gradiant/open5gs-webui:2.7.2
     container_name: webui
     restart: unless-stopped
     networks: [open5gs]
-    depends_on: [mongo]
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - DB_URI=mongodb://mongo/open5gs
     ports:
-      - "3000:3000"
+      - "9999:9999/tcp"
+
+  webui-seed:
+    image: gradiant/open5gs-webui:2.7.2
+    restart: "no"
+    networks: [open5gs]
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - DB_URI=mongodb://mongo/open5gs
+      - WEBUI_ADMIN_USER=admin
+      - WEBUI_ADMIN_PASS=1423
+    command: ["node", "/seed/create-admin.js"]
+    volumes:
+      - ./webui-init:/seed
 
   nrf:
     image: gradiant/open5gs:2.7.2
@@ -114,11 +138,13 @@ services:
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - ./config:/etc/open5gs:ro
+      - /home/ziggy/open5gs-core/config/smf.yaml:/opt/open5gs/etc/open5gs/smf.yaml:ro
+      - /home/ziggy/open5gs-core/config/freeDiameter/smf.conf:/opt/open5gs/etc/freeDiameter/smf.conf:ro
     command: ["open5gs-smfd"]
     depends_on: [nrf, scp, mongo, upf]
   
   upf:
+    user: "root"
     image: gradiant/open5gs:2.7.2
     container_name: upf
     restart: unless-stopped
@@ -130,13 +156,13 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
+    security_opt:
+    - seccomp:unconfined
+    - apparmor:unconfined    
     devices:
       - /dev/net/tun:/dev/net/tun
     sysctls:
       - net.ipv4.ip_forward=1
-    ports:
-      - "2152:2152/udp"
-
 networks:
   open5gs:
     name: open5gs

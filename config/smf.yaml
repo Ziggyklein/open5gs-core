@@ -1,6 +1,6 @@
 logger:
   file:
-    path: /var/log/open5gs/smf.log
+    path: /dev/stdout
 #  level: info   # fatal|error|warn|info(default)|debug|trace
 
 global:
