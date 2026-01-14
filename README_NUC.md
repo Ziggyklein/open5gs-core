@@ -1,24 +1,27 @@
-# Open5GS NUC Quickstart
+Open5GS Core
 
-## Vereisten
-- Ubuntu/Debian met Docker en Docker Compose plugin (`docker compose`).
-- Kernel SCTP ondersteuning (installatie van `libsctp1`/`lksctp-tools` en enabled module).
-- `tun` kernelmodule en `/dev/net/tun` beschikbaar.
-- Toegang om `modprobe`, `sysctl` en `iptables` aan te roepen (root of sudo).
+Headless Open5GS core. Geen WebUI.
 
-## Starten
-Vanuit deze map:
-```
-IFACE=enp2s0 ./run-core.sh
-```
-`IFACE` is de host-interface voor NAT (default `eth0`).
+Configuratie:
+.env
 
-## Reset
-```
+Installatie (eenmalig per machine):
+./install.sh
+
+Starten / toepassen wijzigingen:
+./up.sh
+
+Wijzigingen in .env worden toegepast door install.sh en up.sh opnieuw te draaien.
+
+Reset (verwijdert alle subscriber data):
 ./reset-db.sh
-```
-Verwijdert ook de MongoDB data volume (abonnee-gegevens kwijt).
 
-## UERANSIM koppelen
-- gNB naar HOST-IP poort `38412/sctp` (NGAP > AMF).
-- GTP-U naar HOST-IP poort `2152/udp` (UPF).
+Aansluitpunten:
+AMF (NGAP / SCTP): HOST-IP:38412
+UPF (GTP-U / UDP): HOST-IP:2152
+
+
+checken op subscribers:
+sudo docker exec mongo mongo open5gs --quiet --eval 'db.subscribers.find({}, {imsi:1}).pretty()'
+
+

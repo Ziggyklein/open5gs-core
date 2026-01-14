@@ -4,8 +4,11 @@ services:
     container_name: mongo
     restart: unless-stopped
     networks: [open5gs]
+    env_file:
+      - .env
     volumes:
       - mongo-data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mongo", "--quiet", "--eval", "db.adminCommand('ping').ok"]
       interval: 5s
@@ -27,6 +30,7 @@ services:
 
   webui-seed:
     image: gradiant/open5gs-webui:2.7.2
+    container_name: webui-seed
     restart: "no"
     networks: [open5gs]
     depends_on:
@@ -36,9 +40,10 @@ services:
       - DB_URI=mongodb://mongo/open5gs
       - WEBUI_ADMIN_USER=admin
       - WEBUI_ADMIN_PASS=1423
-    command: ["node", "/seed/create-admin.js"]
+    working_dir: /opt/open5gs-webui
+    entrypoint: ["node", "/seed/create-admin.js"]
     volumes:
-      - ./webui-init:/seed
+      - ./webui-init:/seed:ro
 
   nrf:
     image: gradiant/open5gs:2.7.2

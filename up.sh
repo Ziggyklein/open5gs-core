@@ -21,3 +21,5 @@ sudo docker compose up -d
 sudo docker compose ps
 sudo docker compose logs --tail=50 amf smf upf || true
 
+chmod +x ./seed-subscriber.sh || true
+./seed-subscriber.sh
