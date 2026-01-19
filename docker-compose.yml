@@ -106,7 +106,6 @@ services:
       - ./config:/etc/open5gs:ro
     command: ["open5gs-udrd"]
     depends_on: [nrf, scp, mongo]
-
   pcf:
     image: gradiant/open5gs:2.7.2
     container_name: pcf
@@ -143,8 +142,8 @@ services:
     restart: unless-stopped
     networks: [open5gs]
     volumes:
-      - /home/ziggy/open5gs-core/config/smf.yaml:/opt/open5gs/etc/open5gs/smf.yaml:ro
-      - /home/ziggy/open5gs-core/config/freeDiameter/smf.conf:/opt/open5gs/etc/freeDiameter/smf.conf:ro
+      - ./config/smf.yaml:/opt/open5gs/etc/open5gs/smf.yaml:ro
+      - ./config/freeDiameter/smf.conf:/opt/open5gs/etc/freeDiameter/smf.conf:ro
     command: ["open5gs-smfd"]
     depends_on: [nrf, scp, mongo, upf]
   
