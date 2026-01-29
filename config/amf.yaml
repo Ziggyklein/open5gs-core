@@ -1,3 +1,5 @@
+amf_name: open5gs-amf-MARKER123
+
 logger:
   file:
     path: /var/log/open5gs/amf.log
@@ -14,10 +16,10 @@ amf:
       - address: 0.0.0.0
         port: 7777
     client:
-#      nrf:
-#        - uri: http://nrf:7777
-      scp:
-        - uri: http://scp:7777
+      nrf:
+        - uri: http://nrf:7777
+#      scp:
+#       - uri: http://scp:7777
   ngap:
     server:
       - address: 0.0.0.0
@@ -25,25 +27,27 @@ amf:
     server:
       - address: 0.0.0.0
         port: 9090
-  guami:
+  served_guami_list:
     - plmn_id:
         mcc: "001"
         mnc: "01"
+        mnc_len: 2
       amf_id:
         region: 2
         set: 1
-  
   capacity: 100
-  
-  tai:
+
+  tai_list:
     - plmn_id:
         mcc: "001"
         mnc: "01"
+        mnc_len: 2
       tac: 1
-  plmn_support:
+  plmn_support_list:
     - plmn_id:
         mcc: "001"
         mnc: "01"
+        mnc_len: 2
       s_nssai:
         - sst: 1
   security:
