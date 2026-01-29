@@ -31,7 +31,6 @@ sudo apt install -y docker-ce docker-ce-cli \
                    docker-compose-plugin
 
 sudo usermod -aG docker $(whoami)
-newgrp docker
 
 cd ~
 git clone https://github.com/srsRAN/srsRAN_Project.git
